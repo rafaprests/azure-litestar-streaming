@@ -2,6 +2,9 @@ import azure.functions as func
 import logging
 from litapp import litapp
 
+from dotenv import load_dotenv
+load_dotenv()
+
 app = func.FunctionApp()
 
 @app.route(route="{*path}", auth_level=func.AuthLevel.ANONYMOUS)

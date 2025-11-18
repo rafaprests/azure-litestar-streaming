@@ -5,3 +5,5 @@
 azure-functions
 litestar
 openai-agents
+uvicorn
+dotenv

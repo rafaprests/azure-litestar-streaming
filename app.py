@@ -27,7 +27,7 @@ async def streaming() -> Stream:
                 asyncio.sleep(1)
     return Stream(content=event_generator(), media_type="text/event-stream")
 
-litapp = Litestar(
+app = Litestar(
     route_handlers=[russia, china, ask_agent, streaming],
     openapi_config=OpenAPIConfig(
         title="Litestar Example",

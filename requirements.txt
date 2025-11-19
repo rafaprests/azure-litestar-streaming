@@ -7,3 +7,5 @@ litestar
 openai-agents
 uvicorn
 dotenv
+PyJWT
+typing

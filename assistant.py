@@ -1,4 +1,7 @@
-from agents import Agent, ModelSettings, Runner
+from agents import Agent, ModelSettings, Runner 
+import logging
+from openai.types.responses import ResponseTextDeltaEvent
+logger = logging.getLogger("stream-debug")
 
 agent = Agent(
     name="agent",
@@ -8,6 +11,14 @@ agent = Agent(
     tools=[]
 )
 
-async def bot_request(input_text: str) -> str:
-    response = await Runner.run(agent, input_text)
-    return response
+async def bot_request(input_text: str):
+    logger.debug("iniciando streaming")
+
+    response = Runner.run_streamed(agent, input_text)
+    logger.debug(f"response: {response}")
+
+    async for event in response.stream_events():
+        if event.type == "raw_response_event" and isinstance(event.data, ResponseTextDeltaEvent):
+            yield f"data: {event.data.delta}\n\n"
+
+    yield "data: [DONE]\n\n"
